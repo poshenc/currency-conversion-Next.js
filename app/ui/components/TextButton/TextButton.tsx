@@ -1,9 +1,9 @@
 import { ButtonHTMLAttributes, FunctionComponent } from 'react'
-import styles from './Button.module.css'
+import styles from './TextButton.module.css'
 
 interface Props extends ButtonHTMLAttributes<HTMLButtonElement> { }
 
-const Button: FunctionComponent<Props> = ({ className = '', children, ...props }) => {
+const TextButton: FunctionComponent<Props> = ({ className = '', children, ...props }) => {
     return (
         <button {...props} className={`${styles.button} ${className}`}>
             {children}
@@ -11,4 +11,4 @@ const Button: FunctionComponent<Props> = ({ className = '', children, ...props }
     )
 }
 
-export default Button
+export default TextButton
