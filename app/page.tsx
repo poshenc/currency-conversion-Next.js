@@ -1,16 +1,20 @@
 "use client"
 import Link from "next/link";
-import Button from "./ui/components/Button/Button";
+import TextButton from "./ui/components/TextButton/TextButton";
+import Header from "./ui/components/Header/Header";
+import RateTable from "./ui/components/RateTable/RateTable";
+import { useExchangeRates } from "./ui/hooks/useExchangeRates";
 
 export default function Home() {
-  // const { exchangeRates } = useQueryExchangeRates()
-  // console.log('exchangeRates', exchangeRates);
+  const { exchangeRates } = useExchangeRates()
+  console.log('exchangeRates', exchangeRates);
 
   return (
     <>
-      <div>Rate Table(TWD)</div>
-      <Link href={'rate-conversion'}>
-        <Button>Rate Conversion</Button>
+      <Header title={"Rate Table (TWD)"}></Header>
+      <RateTable exchangeRates={exchangeRates}></RateTable>
+      <Link href={'rate-conversion'} className="mx-auto my-4">
+        <TextButton>Rate Conversion</TextButton>
       </Link>
     </>
   )

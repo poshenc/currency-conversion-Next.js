@@ -1,0 +1,30 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 0.125rem solid #04203c;
+}
+
+.header h3 {
+    margin: 0.625rem 2.5rem 0.625rem 3.75rem;
+}
+
+.table {
+    height: 100%;
+    overflow: auto;
+    border-bottom: 0.125rem solid #04203c;
+}
+
+.row {
+    display: flex;
+    justify-content: space-between;
+    height: 3.25rem;
+    cursor: pointer;
+}
+
+.row:hover {
+    background-color: #EDF4F2;
+}
+
+.price {
+    margin: auto 1rem;
+}

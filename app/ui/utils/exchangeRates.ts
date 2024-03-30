@@ -1,10 +1,12 @@
-import { ExchangeRates, ExchangeRatesDto } from "../api/request";
+import { ExchangeRate, ExchangeRateDto } from "../api/request";
 
-export const transform = (exRatesDto: ExchangeRatesDto[]): ExchangeRates[] => {
+export const transform = (exRatesDto: ExchangeRateDto[]): ExchangeRate[] => {
   return exRatesDto.map(rate => ({
-    ...rate,
-    twd_price: rate.twd_price.toString(),
-    amount_decimal: Number(rate.amount_decimal),
+    id: rate.id,
+    currency: rate.currency,
+    currencyIcon: rate.currency_icon,
+    twdPrice: rate.twd_price.toString(),
+    amountDecimal: Number(rate.amount_decimal),
   }))
 }
 
@@ -20,15 +22,15 @@ const calculateConversionRate = (baseRateStr: string, quoteRateStr: string): str
   return (baseRate / quoteRate).toString()
 }
 
-export const getConversionRate = (baseId: string, quoteId: string, listExchangeRates: ExchangeRates[]): string => {
+export const getConversionRate = (baseId: string, quoteId: string, listExchangeRates: ExchangeRate[]): string => {
   let baseRateStr = ""
   let quoteRateStr = ""
 
   listExchangeRates.forEach(exchange => {
     if (exchange.id === baseId) {
-      baseRateStr = exchange.twd_price;
+      baseRateStr = exchange.twdPrice;
     } else if (exchange.id === quoteId) {
-      quoteRateStr = exchange.twd_price;
+      quoteRateStr = exchange.twdPrice;
     }
   })
 
