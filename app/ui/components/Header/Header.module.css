@@ -1,0 +1,16 @@
+.container {
+    position: relative;
+    padding: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.25rem;
+    border-bottom: 0.125rem solid #04203c;
+    background-color: #F1F1F2;
+}
+
+.button {
+    position: absolute;
+    top: 0.35rem;
+    right: 0;
+}
