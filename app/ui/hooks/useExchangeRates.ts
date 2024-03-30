@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { useCallback, useMemo } from "react";
-import { queryExchangeRates } from "../api/request";
+import { ExchangeRate, queryExchangeRates } from "../api/request";
 import { getConversionRate, transform } from "../utils/exchangeRates";
 
 export const useExchangeRates = () => {
@@ -13,13 +13,18 @@ export const useExchangeRates = () => {
     return transform(query.data ?? [])
   }, [query.data])
 
-  const getExchangeRateByCurrencyIds = useCallback((baseId: string, quoteId: string) => {
+  const getConversionRateByCurrencyIds = useCallback((baseId: string, quoteId: string) => {
     return getConversionRate(baseId, quoteId, exchangeRates)
+  }, [exchangeRates])
+
+  const getRateByCurrencyId = useCallback((currencyId: string) => {
+    return exchangeRates.find(rate => rate.id === currencyId) ?? {} as ExchangeRate
   }, [exchangeRates])
 
   return {
     query,
     exchangeRates,
-    getExchangeRateByCurrencyIds
+    getConversionRateByCurrencyIds,
+    getRateByCurrencyId
   }
 }
