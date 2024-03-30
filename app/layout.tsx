@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { DialogProvider } from "./ui/context/DialogContext";
 import Layout from "./ui/layouts/Layout";
+import TanstackQueryProvider from "./ui/providers/TanstackQueryProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,9 +21,11 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <DialogProvider>
-          <Layout>
-            {children}
-          </Layout>
+          <TanstackQueryProvider>
+            <Layout>
+              {children}
+            </Layout>
+          </TanstackQueryProvider>
         </DialogProvider>
       </body>
     </html>
