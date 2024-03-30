@@ -9,6 +9,10 @@
     background-color: #F1F1F2;
 }
 
+.title {
+    font-weight: 700;
+}
+
 .button {
     position: absolute;
     top: 0.35rem;
