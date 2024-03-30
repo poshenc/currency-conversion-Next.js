@@ -10,10 +10,12 @@ export const transform = (exRatesDto: ExchangeRateDto[]): ExchangeRate[] => {
   }))
 }
 
-export const formatToThousandsSeparator = (number: string): string => {
+export const formatToThousandsSeparator = (number: string | undefined, precision?: number): string => {
+  if (!number) return '******'
   const [integerPart, decimalPart] = number.split('.')
   const integerPartWithThousandsSeparator = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-  return integerPartWithThousandsSeparator + '.' + decimalPart
+  const decimalWithPrecision = decimalPart.substring(0, precision)
+  return integerPartWithThousandsSeparator + '.' + decimalWithPrecision
 }
 
 const calculateConversionRate = (baseRateStr: string, quoteRateStr: string): string => {
