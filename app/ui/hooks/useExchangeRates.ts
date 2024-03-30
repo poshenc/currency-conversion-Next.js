@@ -13,13 +13,13 @@ export const useExchangeRates = () => {
     return transform(query.data ?? [])
   }, [query.data])
 
-  const getPairRatesByCurrencyIds = useCallback((baseId: string, quoteId: string) => {
+  const getExchangeRateByCurrencyIds = useCallback((baseId: string, quoteId: string) => {
     return getConversionRate(baseId, quoteId, exchangeRates)
   }, [exchangeRates])
 
   return {
     query,
     exchangeRates,
-    getPairRatesByCurrencyIds
+    getExchangeRateByCurrencyIds
   }
 }

@@ -1,7 +1,11 @@
+"use client"
 import Link from "next/link";
 import Button from "./ui/components/Button/Button";
 
-export default async function Home() {
+export default function Home() {
+  // const { exchangeRates } = useQueryExchangeRates()
+  // console.log('exchangeRates', exchangeRates);
+
   return (
     <>
       <div>Rate Table(TWD)</div>
