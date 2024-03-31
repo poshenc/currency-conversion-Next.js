@@ -198,5 +198,15 @@ export const queryExchangeRates: () => Promise<ExchangeRateDto[]> = async () => 
     }
   ]
 
+  const twdData = {
+    "currency": "TWD",
+    "currency_icon": "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/673.jpg",
+    "twd_price": 1.00,
+    "amount_decimal": "2",
+    "id": "twd"
+  }
+
+  FAKE.push(twdData)
+
   return FAKE
 }
