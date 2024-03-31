@@ -4,16 +4,22 @@ import CurrencyLabel from "../CurrencyLabel/CurrencyLabel";
 import styles from "./RateTable.module.css";
 
 export default function RateTable({
-  exchangeRates
+  exchangeRates,
+  onSelect
 }: {
-  exchangeRates: ExchangeRate[]
+  exchangeRates: ExchangeRate[];
+  onSelect?: (id: string) => void;
 }) {
-  let tableContent
+  const selectHandler = (id: string | undefined) => {
+    if (id && onSelect) onSelect(id)
+  }
+
+  let tableContent: ExchangeRate[]
 
   if (exchangeRates.length > 0) {
-    tableContent = [...exchangeRates]
+    tableContent = exchangeRates.filter(rate => rate.id !== 'twd')
   } else {
-    tableContent = new Array(20).fill(null)
+    tableContent = new Array(20).fill({} as ExchangeRate)
   }
 
   return (
@@ -25,9 +31,9 @@ export default function RateTable({
       <ul className={styles.table}>
         {tableContent.map((rate, index) => {
           return (
-            <li key={rate?.id ?? index} className={styles.row}>
-              <CurrencyLabel exchangeRate={rate} baseCurrency="TWD"></CurrencyLabel>
-              <div className={styles.price}>{formatToThousandsSeparator(rate?.twdPrice)}</div>
+            <li key={rate.id ?? index} className={styles.row} onClick={() => selectHandler(rate.id)}>
+              <CurrencyLabel exchangeRate={rate} quoteCurrency="TWD"></CurrencyLabel>
+              <div className={styles.price}>{formatToThousandsSeparator(rate.twdPrice)}</div>
             </li>
           )
         })}

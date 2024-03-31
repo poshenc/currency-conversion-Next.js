@@ -3,7 +3,6 @@
 import { useRouter } from "next/navigation"
 import { useContext, useEffect, useMemo, useState } from "react"
 import CurrencySelection from "../currency-selection/CurrencySelection"
-import TextButton from "../ui/components/Buttons/TextButton/TextButton"
 import Header from "../ui/components/Header/Header"
 import { DialogContext } from "../ui/context/DialogContext"
 import { useExchangeRates } from "../ui/hooks/useExchangeRates"
@@ -14,14 +13,17 @@ import Input from "../ui/components/Input/Input"
 import KeyboardDoubleArrowDownIcon from '@mui/icons-material/KeyboardDoubleArrowDown';
 import { ExchangeRate } from "../ui/api/request"
 import { formatToThousandsSeparator } from "../ui/utils/exchangeRates"
+import { useDispatch, useSelector } from "react-redux"
+import { RootState } from "../ui/store"
+import { conversionActions } from "../ui/store/conversion/conversion-action"
 
 export default function RateConversion() {
 
   const router = useRouter()
+  const dispatch = useDispatch()
 
-  // state for currency selections
-  const [baseCurrencyId, setBaseCurrencyId] = useState<string>('1')
-  const [quoteCurrencyId, setQuoteCurrencyId] = useState<string>('4')
+  // redux state for currency selections
+  const { baseCurrencyId, quoteCurrencyId } = useSelector((state: RootState) => state.conversion)
 
   // state for input amount
   const [baseCurrencyAmt, setBaseCurrencyAmt] = useState<string>('100.28')
@@ -31,8 +33,8 @@ export default function RateConversion() {
   const [conversionRate, setConversionRate] = useState<string>('')
 
   // state for currency data
-  const [baseCurrency, setBaseCurrency] = useState<ExchangeRate | null>(null)
-  const [quoteCurrency, setQuoteCurrency] = useState<ExchangeRate | null>(null)
+  const [baseCurrency, setBaseCurrency] = useState<ExchangeRate>({} as ExchangeRate)
+  const [quoteCurrency, setQuoteCurrency] = useState<ExchangeRate>({} as ExchangeRate)
 
   const { openDialog, closeDialog } = useContext(DialogContext)
 
@@ -52,17 +54,14 @@ export default function RateConversion() {
     setQuoteCurrency(quoteCurrency)
   }, [baseCurrencyId, quoteCurrencyId, exchangeRates])
 
-  const selectHandler = (currencyId: string, currencyType: string) => {
-    if (currencyType === 'base') {
-      setBaseCurrencyId(currencyId)
-    } else if (currencyType === 'quote') {
-      setQuoteCurrencyId(currencyId)
-    }
+  const selectHandler = (currencyType: string, currencyId: string) => {
+    // update one of the currency selection in redux state
+    dispatch(conversionActions.updateConversionCurrency({ currencyType, currencyId }))
   }
 
   const openCurrencySelection = (currencyId: string | undefined, currencyType: string) => {
     if (currencyId) {
-      openDialog(<CurrencySelection defaultValue={currencyId} exchangeRates={exchangeRates} onSelect={(selectedCurrencyId) => selectHandler(selectedCurrencyId, currencyType)} onClose={closeDialog}></CurrencySelection>)
+      openDialog(<CurrencySelection defaultValue={currencyId} exchangeRates={exchangeRates} onSelect={(id) => selectHandler(currencyType, id)} onClose={closeDialog}></CurrencySelection>)
     }
   }
 
@@ -77,8 +76,6 @@ export default function RateConversion() {
       <div className={styles.rate}>
         1 {baseCurrency.currency} ≈ <strong>{conversionRateWithPrecision}</strong> {quoteCurrency.currency}
       </div>
-
-
   }
 
   return (
@@ -88,7 +85,7 @@ export default function RateConversion() {
 
       <div className={styles['conversion-container']}>
         <div className={`${styles.field} ${styles.base}`}>
-          <SelectionButton onClick={() => openCurrencySelection(baseCurrency?.id, 'base')}>
+          <SelectionButton onClick={() => openCurrencySelection(baseCurrency.id, 'base')}>
             <CurrencyLabel fontWeight="500" exchangeRate={baseCurrency} ></CurrencyLabel>
           </SelectionButton>
           <Input id="baseCurrencyAmt" value={baseCurrencyAmt} onValueChange={setBaseCurrencyAmt} textAlign="right" />
@@ -99,7 +96,7 @@ export default function RateConversion() {
         </div>
 
         <div className={`${styles.field} ${styles.quote}`}>
-          <SelectionButton onClick={() => openCurrencySelection(quoteCurrency?.id, 'quote')}>
+          <SelectionButton onClick={() => openCurrencySelection(quoteCurrency.id, 'quote')}>
             <CurrencyLabel fontWeight="600" exchangeRate={quoteCurrency}></CurrencyLabel>
           </SelectionButton>
           <Input id="quoteCurrencyAmt" value={quoteCurrencyAmt} onValueChange={setQuoteCurrencyAmt} textAlign="right" />

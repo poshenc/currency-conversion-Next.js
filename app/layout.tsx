@@ -4,6 +4,7 @@ import "./globals.css";
 import { DialogProvider } from "./ui/context/DialogContext";
 import Layout from "./ui/layouts/Layout";
 import TanstackQueryProvider from "./ui/providers/TanstackQueryProvider";
+import StoreProvider from "./ui/providers/StoreProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,13 +21,15 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <DialogProvider>
-          <TanstackQueryProvider>
-            <Layout>
-              {children}
-            </Layout>
-          </TanstackQueryProvider>
-        </DialogProvider>
+        <StoreProvider>
+          <DialogProvider>
+            <TanstackQueryProvider>
+              <Layout>
+                {children}
+              </Layout>
+            </TanstackQueryProvider>
+          </DialogProvider>
+        </StoreProvider>
       </body>
     </html>
   );
