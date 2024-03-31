@@ -14,17 +14,15 @@ const DynamicText = styled.span<DynamicTextProps>`
 
 
 export default function CurrencyLabel({
-  baseCurrency,
+  quoteCurrency,
   fontWeight = "normal",
   exchangeRate
 }: {
-  baseCurrency?: string;
+  exchangeRate: ExchangeRate;
+  quoteCurrency?: string;
   fontWeight?: string;
-  exchangeRate: ExchangeRate | null;
 }) {
-  if (!exchangeRate) return <CircularProgress size="1.75rem" />
-
-
+  if (!exchangeRate.currencyIcon) return <CircularProgress size="1.75rem" />
 
   const { currency, currencyIcon } = exchangeRate
 
@@ -38,7 +36,7 @@ export default function CurrencyLabel({
         height={38}
         className={styles.image}
       />
-      <DynamicText fontWeight={fontWeight}>{currency}{baseCurrency && ` / ${baseCurrency}`}</DynamicText>
+      <DynamicText fontWeight={fontWeight}>{currency}{quoteCurrency && ` / ${quoteCurrency}`}</DynamicText>
     </div>
   )
 }
