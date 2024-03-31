@@ -1,9 +1,22 @@
-.input {
-    font-size: 1.25rem;
+.container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     border: 0.125rem solid #04203c;
     height: 3.625rem;
-    text-align: right;
-    padding-right: 0.75rem;
-    border-radius: 0.5rem;
+    padding: 0 0.75rem;
+}
+
+.input {
+    font-size: 1.25rem;
     width: 100%;
+    outline: none;
+}
+
+.icon {
+    /* position: absolute;
+    top: 0.8rem;
+    right: 1rem; */
+    font-size: 2rem;
+    cursor: pointer;
 }
