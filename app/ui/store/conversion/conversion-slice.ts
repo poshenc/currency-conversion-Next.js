@@ -13,11 +13,11 @@ const conversionSlice = createSlice({
   initialState,
   reducers: {
     updateConversionCurrency(state, action) {
-      const { currencyType, currencyId } = action.payload
+      const { conversionType, currencyId } = action.payload
 
-      if (currencyType === 'base') {
+      if (conversionType === 'base') {
         state.baseCurrencyId = currencyId
-      } else if (currencyType === 'quote') {
+      } else if (conversionType === 'quote') {
         state.quoteCurrencyId = currencyId
       }
     }

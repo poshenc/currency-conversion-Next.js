@@ -41,14 +41,14 @@ export const getConversionRate = (baseId: string, quoteId: string, listExchangeR
   return calculateConversionRate(baseRateStr, quoteRateStr)
 }
 
-export const convertBaseRate = (baseAmountStr: string, exchangeRateStr: string): string => {
+export const convertAndFormatBaseRate = (baseAmountStr: string, exchangeRateStr: string, precision: number): string => {
   if (!baseAmountStr || !exchangeRateStr) return ''
   const result = Number(baseAmountStr) * Number(exchangeRateStr)
-  return Number.isNaN(result) ? '' : result.toString()
+  return formatToThousandsSeparator(result.toString(), precision)
 }
 
-export const convertQuoteRate = (quoteAmountStr: string, exchangeRateStr: string): string => {
+export const convertAndFormatQuoteRate = (quoteAmountStr: string, exchangeRateStr: string, precision: number): string => {
   if (!quoteAmountStr || !exchangeRateStr) return ''
   const result = Number(quoteAmountStr) / Number(exchangeRateStr)
-  return Number.isNaN(result) ? '' : result.toString()
+  return formatToThousandsSeparator(result.toString(), precision)
 }
