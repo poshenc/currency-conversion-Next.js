@@ -11,7 +11,7 @@ export const transform = (exRatesDto: ExchangeRateDto[]): ExchangeRate[] => {
 }
 
 export const formatToThousandsSeparator = (number: string | undefined, precision?: number): string => {
-  if (!number) return '******'
+  if (!number) return ''
   const [integerPart, decimalPart] = number.split('.')
   const integerPartWithThousandsSeparator = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
   const decimalWithPrecision = decimalPart ? '.' + decimalPart.substring(0, precision) : ''
@@ -39,4 +39,16 @@ export const getConversionRate = (baseId: string, quoteId: string, listExchangeR
   if (!baseRateStr || !quoteRateStr) return '1.00'
 
   return calculateConversionRate(baseRateStr, quoteRateStr)
+}
+
+export const convertBaseRate = (baseAmountStr: string, exchangeRateStr: string): string => {
+  if (!baseAmountStr || !exchangeRateStr) return ''
+  const result = Number(baseAmountStr) * Number(exchangeRateStr)
+  return Number.isNaN(result) ? '' : result.toString()
+}
+
+export const convertQuoteRate = (quoteAmountStr: string, exchangeRateStr: string): string => {
+  if (!quoteAmountStr || !exchangeRateStr) return ''
+  const result = Number(quoteAmountStr) / Number(exchangeRateStr)
+  return Number.isNaN(result) ? '' : result.toString()
 }

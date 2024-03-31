@@ -12,7 +12,7 @@ import styles from './page.module.css'
 import Input from "../ui/components/Input/Input"
 import KeyboardDoubleArrowDownIcon from '@mui/icons-material/KeyboardDoubleArrowDown';
 import { ExchangeRate } from "../ui/api/request"
-import { formatToThousandsSeparator } from "../ui/utils/exchangeRates"
+import { convertBaseRate, convertQuoteRate, formatToThousandsSeparator } from "../ui/utils/exchangeRates"
 import { useDispatch, useSelector } from "react-redux"
 import { RootState } from "../ui/store"
 import { conversionActions } from "../ui/store/conversion/conversion-action"
@@ -25,9 +25,11 @@ export default function RateConversion() {
   // redux state for currency selections
   const { baseCurrencyId, quoteCurrencyId } = useSelector((state: RootState) => state.conversion)
 
-  // state for input amount
-  const [baseCurrencyAmt, setBaseCurrencyAmt] = useState<string>('100.28')
-  const [quoteCurrencyAmt, setQuoteCurrencyAmt] = useState<string>('00.4869')
+  // state for input amount entered
+  const [amountEntered, setAmountEntered] = useState<string>('1')
+
+  // state for currently editing input, true for baseCurrencyAmt, false for quoteCurrencyAmt
+  const [isLastEditedBaseAmt, setIsLastEditedBaseAmt] = useState<boolean>(true)
 
   // state for calculated conversion rate
   const [conversionRate, setConversionRate] = useState<string>('')
@@ -65,10 +67,21 @@ export default function RateConversion() {
     }
   }
 
+  const baseAmountHandler = (amount: string) => {
+    setAmountEntered(amount)
+    setIsLastEditedBaseAmt(true)
+  }
+
+  const quoteAmountHandler = (amount: string) => {
+    setAmountEntered(amount)
+    setIsLastEditedBaseAmt(false)
+  }
+
   const closeHandler = () => {
     router.push('/')
   }
 
+  // for rendering description of exchange rate 
   let rateContent = null
   if (baseCurrency && quoteCurrency && conversionRate) {
     const conversionRateWithPrecision = formatToThousandsSeparator(conversionRate, quoteCurrency.amountDecimal)
@@ -76,6 +89,18 @@ export default function RateConversion() {
       <div className={styles.rate}>
         1 {baseCurrency.currency} ≈ <strong>{conversionRateWithPrecision}</strong> {quoteCurrency.currency}
       </div>
+  }
+
+  // convert rate depending on the last edited input is base currency or quote currency
+  let baseAmount, quoteAmount
+  if (isLastEditedBaseAmt) {
+    baseAmount = amountEntered
+    let quoteAmountBeforeRounding = convertBaseRate(baseAmount, conversionRate)
+    quoteAmount = formatToThousandsSeparator(quoteAmountBeforeRounding, quoteCurrency.amountDecimal)
+  } else {
+    quoteAmount = amountEntered
+    let baseAmountBeforeRounding = convertQuoteRate(quoteAmount, conversionRate)
+    baseAmount = formatToThousandsSeparator(baseAmountBeforeRounding, baseCurrency.amountDecimal)
   }
 
   return (
@@ -88,7 +113,7 @@ export default function RateConversion() {
           <SelectionButton onClick={() => openCurrencySelection(baseCurrency.id, 'base')}>
             <CurrencyLabel fontWeight="500" exchangeRate={baseCurrency} ></CurrencyLabel>
           </SelectionButton>
-          <Input id="baseCurrencyAmt" value={baseCurrencyAmt} onValueChange={setBaseCurrencyAmt} textAlign="right" />
+          <Input id="baseCurrencyAmt" value={baseAmount} onValueChange={baseAmountHandler} textAlign="right" />
           <div className={styles.arrow}>
             <KeyboardDoubleArrowDownIcon className={styles['arrow-icon']} />
           </div>
@@ -99,7 +124,7 @@ export default function RateConversion() {
           <SelectionButton onClick={() => openCurrencySelection(quoteCurrency.id, 'quote')}>
             <CurrencyLabel fontWeight="600" exchangeRate={quoteCurrency}></CurrencyLabel>
           </SelectionButton>
-          <Input id="quoteCurrencyAmt" value={quoteCurrencyAmt} onValueChange={setQuoteCurrencyAmt} textAlign="right" />
+          <Input id="quoteCurrencyAmt" value={quoteAmount} onValueChange={quoteAmountHandler} textAlign="right" />
         </div>
       </div>
     </>
