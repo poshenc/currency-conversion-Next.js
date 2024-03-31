@@ -14,8 +14,8 @@ export const formatToThousandsSeparator = (number: string | undefined, precision
   if (!number) return '******'
   const [integerPart, decimalPart] = number.split('.')
   const integerPartWithThousandsSeparator = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-  const decimalWithPrecision = decimalPart.substring(0, precision)
-  return integerPartWithThousandsSeparator + '.' + decimalWithPrecision
+  const decimalWithPrecision = decimalPart ? '.' + decimalPart.substring(0, precision) : ''
+  return integerPartWithThousandsSeparator + decimalWithPrecision
 }
 
 const calculateConversionRate = (baseRateStr: string, quoteRateStr: string): string => {
