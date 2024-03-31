@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FunctionComponent, InputHTMLAttributes, useState } from 'react';
+import React, { ChangeEvent, FunctionComponent, InputHTMLAttributes } from 'react';
 import styles from './Input.module.css';
 
 interface Props extends InputHTMLAttributes<HTMLInputElement> {
@@ -15,7 +15,12 @@ const Input: FunctionComponent<Props> = ({ onValueChange, Icon, textAlign = 'lef
 
   return (
     <div className={styles.container}>
-      <input id='input-box' className={styles.input} style={{ textAlign }} {...props} onChange={onChangeHandler} />
+      <input
+        {...props}
+        className={styles.input}
+        style={{ textAlign }}
+        onChange={onChangeHandler}
+        autoComplete='off' />
       {Icon && <label htmlFor='input-box'><Icon className={styles.icon} /></label>}
     </div>
   )

@@ -1,7 +1,7 @@
 "use client"
 
 import { useRouter } from "next/navigation"
-import { useContext, useEffect, useMemo, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import CurrencySelection from "../currency-selection/CurrencySelection"
 import Header from "../ui/components/Header/Header"
 import { DialogContext } from "../ui/context/DialogContext"

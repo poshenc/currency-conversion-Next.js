@@ -1,12 +1,11 @@
 "use client"
 
-import { ChangeEvent, useState } from "react"
+import { useState } from "react"
 import { ExchangeRate } from "../ui/api/request"
 import CurrencyLabel from "../ui/components/CurrencyLabel/CurrencyLabel"
 import Header from "../ui/components/Header/Header"
 import Input from "../ui/components/Input/Input"
 import Layout from "../ui/layouts/Layout"
-import { formatToThousandsSeparator } from "../ui/utils/exchangeRates"
 import styles from "./CurrencySelection.module.css"
 import SearchIcon from '@mui/icons-material/Search'
 

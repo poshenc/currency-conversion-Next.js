@@ -7,7 +7,7 @@ import RateTable from "./ui/components/RateTable/RateTable";
 import { useExchangeRates } from "./ui/hooks/useExchangeRates";
 import CachedIcon from '@mui/icons-material/Cached';
 import { useMemo } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { conversionActions } from "./ui/store/conversion/conversion-action";
 import { useRouter } from "next/navigation";
 
