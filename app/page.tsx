@@ -22,10 +22,10 @@ export default function Home() {
   }, [query.dataUpdatedAt]);
 
   const selectHandler = (currencyId: string) => {
-    const payload1 = { currencyType: 'base', currencyId }
+    const payload1 = { conversionType: 'base', currencyId }
     dispatch(conversionActions.updateConversionCurrency(payload1))
 
-    const payload2 = { currencyType: 'quote', currencyId: 'twd' }
+    const payload2 = { conversionType: 'quote', currencyId: 'twd' }
     dispatch(conversionActions.updateConversionCurrency(payload2))
 
     router.push('/rate-conversion')

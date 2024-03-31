@@ -1,0 +1,43 @@
+.card {
+    margin: 2rem 0.5rem;
+    border: 0.125rem solid #9ca3af;
+    border-radius: 1rem;
+    position: relative;
+    height: 19rem;
+}
+
+.children-container {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    height: 100%;
+    padding: 1.75rem;
+}
+
+.arrow {
+    height: 3rem;
+    width: 3rem;
+    border-radius: 50%;
+    background-color: #04203c;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 50%;
+    left: 4.5rem;
+    transform: translate(-50%, -50%);
+}
+
+.arrow-icon {
+    color: #FFFFFF;
+    font-size: 1.75rem;
+}
+
+.description {
+    position: absolute;
+    top: 7.8rem;
+    text-align: right;
+    border-bottom: 0.125rem solid #9ca3af;
+    width: 100%;
+    padding-right: 2rem;
+}
