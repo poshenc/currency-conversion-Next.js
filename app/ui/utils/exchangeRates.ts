@@ -36,7 +36,7 @@ export const getConversionRate = (baseId: string, quoteId: string, listExchangeR
     }
   })
 
-  if (!baseRateStr || !quoteRateStr) return ''
+  if (!baseRateStr || !quoteRateStr) return '1.00'
 
   return calculateConversionRate(baseRateStr, quoteRateStr)
 }
