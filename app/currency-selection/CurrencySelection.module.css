@@ -1,0 +1,24 @@
+.table {
+  height: 100%;
+  overflow: auto;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 3.25rem;
+  cursor: pointer;
+}
+
+.row:hover {
+  background-color: #EDF4F2;
+}
+
+.highlighted {
+  background-color: #EDF4F2;
+}
+
+.price {
+  margin: auto 1rem;
+}

@@ -30,11 +30,11 @@ const DialogProvider: React.FC<PropsWithChildren> = ({ children }) => {
 
     return (
         <DialogContext.Provider value={dialogContext}>
-            <Dialog open={isDialogOpen} onClose={closeDialog}>
+            <Dialog open={isDialogOpen} onClose={closeDialog} fullScreen>
                 {content}
             </Dialog>
             {children}
-        </DialogContext.Provider>
+        </DialogContext.Provider >
     )
 }
 

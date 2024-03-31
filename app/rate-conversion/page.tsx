@@ -52,12 +52,18 @@ export default function RateConversion() {
     setQuoteCurrency(quoteCurrency)
   }, [baseCurrencyId, quoteCurrencyId, exchangeRates])
 
-  const selectHandler = (selectedCurrency: string) => {
-    console.log('selected');
+  const selectHandler = (currencyId: string, currencyType: string) => {
+    if (currencyType === 'base') {
+      setBaseCurrencyId(currencyId)
+    } else if (currencyType === 'quote') {
+      setQuoteCurrencyId(currencyId)
+    }
   }
 
-  const openCurrencySelection = () => {
-    openDialog(<CurrencySelection onSelect={selectHandler} onClose={closeDialog}></CurrencySelection>)
+  const openCurrencySelection = (currencyId: string | undefined, currencyType: string) => {
+    if (currencyId) {
+      openDialog(<CurrencySelection defaultValue={currencyId} exchangeRates={exchangeRates} onSelect={(selectedCurrencyId) => selectHandler(selectedCurrencyId, currencyType)} onClose={closeDialog}></CurrencySelection>)
+    }
   }
 
   const closeHandler = () => {
@@ -82,21 +88,21 @@ export default function RateConversion() {
 
       <div className={styles['conversion-container']}>
         <div className={`${styles.field} ${styles.base}`}>
-          <SelectionButton onClick={openCurrencySelection}>
-            <CurrencyLabel fontWeight="600" exchangeRate={baseCurrency} ></CurrencyLabel>
+          <SelectionButton onClick={() => openCurrencySelection(baseCurrency?.id, 'base')}>
+            <CurrencyLabel fontWeight="500" exchangeRate={baseCurrency} ></CurrencyLabel>
           </SelectionButton>
-          <Input id="baseCurrencyAmt" value={baseCurrencyAmt} onValueChange={setBaseCurrencyAmt} />
-          <div className={styles.switch}>
-            <KeyboardDoubleArrowDownIcon className={styles['switch-icon']} />
+          <Input id="baseCurrencyAmt" value={baseCurrencyAmt} onValueChange={setBaseCurrencyAmt} textAlign="right" />
+          <div className={styles.arrow}>
+            <KeyboardDoubleArrowDownIcon className={styles['arrow-icon']} />
           </div>
           {rateContent}
         </div>
 
         <div className={`${styles.field} ${styles.quote}`}>
-          <SelectionButton onClick={openCurrencySelection}>
+          <SelectionButton onClick={() => openCurrencySelection(quoteCurrency?.id, 'quote')}>
             <CurrencyLabel fontWeight="600" exchangeRate={quoteCurrency}></CurrencyLabel>
           </SelectionButton>
-          <Input id="quoteCurrencyAmt" value={quoteCurrencyAmt} onValueChange={setQuoteCurrencyAmt} />
+          <Input id="quoteCurrencyAmt" value={quoteCurrencyAmt} onValueChange={setQuoteCurrencyAmt} textAlign="right" />
         </div>
       </div>
     </>
