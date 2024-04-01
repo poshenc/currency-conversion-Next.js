@@ -31,7 +31,6 @@ export default function CurrencyLabel({
       <Image
         src={currencyIcon}
         alt={currency}
-        unoptimized
         width={38}
         height={38}
         className={styles.image}
